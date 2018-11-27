@@ -1,0 +1,28 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\wcollin3\Downloads\EECS3100-Fall2017(1)\EECS 3100ware\Project Templates\Lab9_LCD-ST7735\Lab9.uvproj
+Project File Date:  07/20/2016
+
+<h2>Output:</h2>
+Build target 'Lab9'
+compiling Main.c...
+Images.h(234): warning:  #1-D: last line of file ends without a newline
+  };
+../inc/tm4c123gh6pm.h(2059): warning:  #47-D: incompatible redefinition of macro "SYSCTL_RCGC2_R" (declared at line 31 of "Main.c")
+  #define SYSCTL_RCGC2_R          (*((volatile uint32_t *)0x400FE108))
+Main.c(49): warning:  #177-D: variable "intro" was declared but never referenced
+        char *intro="Hello";
+Main.c(68): warning:  #550-D: variable "delay" was set but never used
+        int delay;
+Main.c: 4 warnings, 0 errors
+linking...
+Program Size: Code=2256 RO-data=9400 RW-data=44 ZI-data=1028  
+".\Lab9.axf" - 0 Error(s), 4 Warning(s).
+Load "C:\\Users\\wcollin3\\Downloads\\EECS3100-Fall2017(1)\\EECS 3100ware\\Project Templates\\Lab9_LCD-ST7735\\Lab9.axf" 
+Connecting: Mode=JTAG, Speed=1000000Hz
+Erase Done.
+Programming Done.
+Verify OK.

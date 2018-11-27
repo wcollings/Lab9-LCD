@@ -1,0 +1,286 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ************
+    2 00000000         ; IO.s
+    3 00000000         ; Instructor: ***fill this in***
+    4 00000000         ; Student: ***fill this in***
+    5 00000000         ; Section: ***fill this in***
+    6 00000000         ; Date:    ***fill this in***
+    7 00000000         ; Runs on LM4F120/TM4C123
+    8 00000000         ;
+    9 00000000         ; EECS3100 lab 9 device driver for the switch and LED.
+   10 00000000         ; You are allowed to use any switch and any LED,
+   11 00000000         ; although the Lab suggests the SW1 switch PF4 and Red L
+                       ED PF1
+   12 00000000         ;
+   13 00000000         ; As part of Lab 9, students need to implement these thr
+                       ee functions
+   14 00000000         ;
+   15 00000000         ; Hardware breakpoint switch connected to PE0 on the Lau
+                       nchpad
+   16 00000000         ; LED connected to PE3 on the Launchpad
+   17 00000000         ;*******************************************************
+                       ************
+   18 00000000         
+   19 00000000                 EXPORT           IO_Init
+   20 00000000                 EXPORT           IO_Touch
+   21 00000000                 EXPORT           IO_HeartBeat
+   22 00000000                 IMPORT           Delay1ms
+   23 00000000         
+   24 00000000 4C4F434B 
+                       GPIO_LOCK_KEY
+                               EQU              0x4C4F434B
+   25 00000000 400243FC 
+                       GPIO_PORTE_DATA_R
+                               EQU              0x400243FC
+   26 00000000 40024400 
+                       GPIO_PORTE_DIR_R
+                               EQU              0x40024400
+   27 00000000 40024420 
+                       GPIO_PORTE_AFSEL_R
+                               EQU              0x40024420
+   28 00000000 40024510 
+                       GPIO_PORTE_PUR_R
+                               EQU              0x40024510
+   29 00000000 4002451C 
+                       GPIO_PORTE_DEN_R
+                               EQU              0x4002451C
+   30 00000000 40024520 
+                       GPIO_PORTE_LOCK_R
+                               EQU              0x40024520
+   31 00000000 40024524 
+                       GPIO_PORTE_CR_R
+                               EQU              0x40024524
+   32 00000000 40024528 
+                       GPIO_PORTE_AMSEL_R
+                               EQU              0x40024528
+   33 00000000 4002452C 
+                       GPIO_PORTE_PCTL_R
+                               EQU              0x4002452C
+   34 00000000 400FE608 
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+                       SYSCTL_RCGCGPIO_R
+                               EQU              0x400FE608
+   35 00000000         
+   36 00000000                 AREA             |.text|, CODE, READONLY, ALIGN=
+2
+   37 00000000                 THUMB
+   38 00000000         
+   39 00000000         
+   40 00000000         
+   41 00000000         ;------------IO_Init------------
+   42 00000000         ; Initialize GPIO Port for three switches PE0-2 (without
+                        pullup) and an LED (PE3)
+   43 00000000         ; This function should not interfere with PLL settings o
+                       n the clock
+   44 00000000         ; Input: none
+   45 00000000         ; Output: none
+   46 00000000         ; This is a public function
+   47 00000000         ; Invariables: This function must not permanently modify
+                        registers R4 to R11
+   48 00000000         IO_Init
+   49 00000000         
+   50 00000000 4770            BX               LR
+   51 00000002         ;* * * * * * * * End of IO_Init * * * * * * * *
+   52 00000002         
+   53 00000002         ;------------IO_HeartBeat------------
+   54 00000002         ; Toggle the output state of the LED.
+   55 00000002         ; Input: none
+   56 00000002         ; Output: none
+   57 00000002         ; This is a public function
+   58 00000002         ; Invariables: This function must not permanently modify
+                        registers R4 to R11
+   59 00000002         IO_HeartBeat
+   60 00000002         
+   61 00000002 4770            BX               LR          ; return
+   62 00000004         ;* * * * * * * * End of IO_HeartBeat * * * * * * * *
+   63 00000004         
+   64 00000004         ;------------IO_Touch------------
+   65 00000004         ; Hardware breakpoint
+   66 00000004         ; First: wait while switch is pressed
+   67 00000004         ; and then: wait until switch is released
+   68 00000004         ; Input: none
+   69 00000004         ; Input: none
+   70 00000004         ; Output: none
+   71 00000004         ; This is a public function
+   72 00000004         ; Invariables: This function must not permanently modify
+                        registers R4 to R11
+   73 00000004         IO_Touch
+   74 00000004         
+   75 00000004 4770            BX               LR          ; return*/
+   76 00000006         ;* * * * * * * * End of IO_Touch * * * * * * * *
+   77 00000006         
+   78 00000006 00 00           ALIGN                        ; make sure the end
+                                                             of this section is
+                                                             aligned
+   79 00000008                 END                          ; end of file
+Command Line: --debug --xref --cpu=Cortex-M4 --apcs=interwork --depend=.\io.d -
+o.\io.o -IC:\Keil\ARM\RV31\INC -IC:\Keil\ARM\CMSIS\Include -IC:\Keil\ARM\Inc\Lu
+minary --predefine="__EVAL SETA 1" --predefine="__MICROLIB SETA 1" --list=.\io.
+lst IO.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 36 in file IO.s
+   Uses
+      None
+Comment: .text unused
+IO_HeartBeat 00000002
+
+Symbol: IO_HeartBeat
+   Definitions
+      At line 59 in file IO.s
+   Uses
+      At line 21 in file IO.s
+Comment: IO_HeartBeat used once
+IO_Init 00000000
+
+Symbol: IO_Init
+   Definitions
+      At line 48 in file IO.s
+   Uses
+      At line 19 in file IO.s
+Comment: IO_Init used once
+IO_Touch 00000004
+
+Symbol: IO_Touch
+   Definitions
+      At line 73 in file IO.s
+   Uses
+      At line 20 in file IO.s
+Comment: IO_Touch used once
+4 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_LOCK_KEY 4C4F434B
+
+Symbol: GPIO_LOCK_KEY
+   Definitions
+      At line 24 in file IO.s
+   Uses
+      None
+Comment: GPIO_LOCK_KEY unused
+GPIO_PORTE_AFSEL_R 40024420
+
+Symbol: GPIO_PORTE_AFSEL_R
+   Definitions
+      At line 27 in file IO.s
+   Uses
+      None
+Comment: GPIO_PORTE_AFSEL_R unused
+GPIO_PORTE_AMSEL_R 40024528
+
+Symbol: GPIO_PORTE_AMSEL_R
+   Definitions
+      At line 32 in file IO.s
+   Uses
+      None
+Comment: GPIO_PORTE_AMSEL_R unused
+GPIO_PORTE_CR_R 40024524
+
+Symbol: GPIO_PORTE_CR_R
+   Definitions
+      At line 31 in file IO.s
+   Uses
+      None
+Comment: GPIO_PORTE_CR_R unused
+GPIO_PORTE_DATA_R 400243FC
+
+Symbol: GPIO_PORTE_DATA_R
+   Definitions
+      At line 25 in file IO.s
+   Uses
+      None
+Comment: GPIO_PORTE_DATA_R unused
+GPIO_PORTE_DEN_R 4002451C
+
+Symbol: GPIO_PORTE_DEN_R
+   Definitions
+      At line 29 in file IO.s
+   Uses
+      None
+Comment: GPIO_PORTE_DEN_R unused
+GPIO_PORTE_DIR_R 40024400
+
+Symbol: GPIO_PORTE_DIR_R
+   Definitions
+      At line 26 in file IO.s
+   Uses
+      None
+Comment: GPIO_PORTE_DIR_R unused
+GPIO_PORTE_LOCK_R 40024520
+
+Symbol: GPIO_PORTE_LOCK_R
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Absolute symbols
+
+   Definitions
+      At line 30 in file IO.s
+   Uses
+      None
+Comment: GPIO_PORTE_LOCK_R unused
+GPIO_PORTE_PCTL_R 4002452C
+
+Symbol: GPIO_PORTE_PCTL_R
+   Definitions
+      At line 33 in file IO.s
+   Uses
+      None
+Comment: GPIO_PORTE_PCTL_R unused
+GPIO_PORTE_PUR_R 40024510
+
+Symbol: GPIO_PORTE_PUR_R
+   Definitions
+      At line 28 in file IO.s
+   Uses
+      None
+Comment: GPIO_PORTE_PUR_R unused
+SYSCTL_RCGCGPIO_R 400FE608
+
+Symbol: SYSCTL_RCGCGPIO_R
+   Definitions
+      At line 34 in file IO.s
+   Uses
+      None
+Comment: SYSCTL_RCGCGPIO_R unused
+11 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+Delay1ms 00000000
+
+Symbol: Delay1ms
+   Definitions
+      At line 22 in file IO.s
+   Uses
+      None
+Comment: Delay1ms unused
+1 symbol
+348 symbols in table
