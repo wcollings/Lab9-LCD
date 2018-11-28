@@ -45,9 +45,30 @@ SYSCTL_RCGCGPIO_R  EQU 0x400FE608
 ; Output: none
 ; This is a public function
 ; Invariables: This function must not permanently modify registers R4 to R11
-IO_Init
-    
+IO_Init PROC
+    LDR r0, =SYSCTL_RCGCGPIO_R
+	LDR r1, [r0]
+	ORR r1, #0x10
+	STR r1, [r0]
+	NOP
+	NOP
+	LDR r0, =GPIO_PORTE_PUR_R
+	MOV r1, #0x0
+	STR r1, [r0]
+	LDR r0, =GPIO_PORTE_AFSEL_R
+	STR r1, [r0]
+	LDR r0, =GPIO_PORTE_AMSEL_R
+	STR r1, [r0]
+	LDR r0, =GPIO_PORTE_PCTL_R
+	STR r1, [r0]
+	LDR r0, =GPIO_PORTE_DIR_R
+	MOV r1, #0x8
+	STR r1, [r0]
+	LDR r0, =GPIO_PORTE_DEN_R
+	MOV r1, #0xF
+	STR r1, [r0]
     BX  LR
+	ENDP
 ;* * * * * * * * End of IO_Init * * * * * * * *
 
 ;------------IO_HeartBeat------------
@@ -56,9 +77,13 @@ IO_Init
 ; Output: none
 ; This is a public function
 ; Invariables: This function must not permanently modify registers R4 to R11
-IO_HeartBeat
-
+IO_HeartBeat PROC
+	LDR r0, =GPIO_PORTE_DATA_R
+	LDR r1, [r0]
+	EOR r1, #0x4
+	STR r1, [r0]
     BX  LR                        ; return
+	ENDP
 ;* * * * * * * * End of IO_HeartBeat * * * * * * * *
 
 ;------------IO_Touch------------
@@ -70,9 +95,14 @@ IO_HeartBeat
 ; Output: none
 ; This is a public function
 ; Invariables: This function must not permanently modify registers R4 to R11
-IO_Touch
-
-    BX  LR                          ; return*/
+IO_Touch PROC
+	LDR r1, =GPIO_PORTE_DATA_R
+WAIT_FOR_RELEASE
+	LDR r2, [r1]
+	TST r2, #0x1
+	BEQ WAIT_FOR_RELEASE ; End of loop
+	BX  LR                          ; return*/
+	ENDP
 ;* * * * * * * * End of IO_Touch * * * * * * * *
 
     ALIGN                           ; make sure the end of this section is aligned
