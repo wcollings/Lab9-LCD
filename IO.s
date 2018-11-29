@@ -46,25 +46,25 @@ SYSCTL_RCGCGPIO_R  EQU 0x400FE608
 ; This is a public function
 ; Invariables: This function must not permanently modify registers R4 to R11
 IO_Init PROC
-    LDR r0, =SYSCTL_RCGCGPIO_R
+    LDR r0, =SYSCTL_RCGCGPIO_R			; init clock
 	LDR r1, [r0]
 	ORR r1, #0x10
 	STR r1, [r0]
 	NOP
 	NOP
-	LDR r0, =GPIO_PORTE_PUR_R
+	LDR r0, =GPIO_PORTE_PUR_R			; set pull-up registers
 	MOV r1, #0x0
 	STR r1, [r0]
-	LDR r0, =GPIO_PORTE_AFSEL_R
+	LDR r0, =GPIO_PORTE_AFSEL_R			; set Alternate Functionality Selector
 	STR r1, [r0]
-	LDR r0, =GPIO_PORTE_AMSEL_R
+	LDR r0, =GPIO_PORTE_AMSEL_R			; set Alternate Mode Selector
 	STR r1, [r0]
-	LDR r0, =GPIO_PORTE_PCTL_R
+	LDR r0, =GPIO_PORTE_PCTL_R			; set PCTL
 	STR r1, [r0]
-	LDR r0, =GPIO_PORTE_DIR_R
+	LDR r0, =GPIO_PORTE_DIR_R			; set direction
 	MOV r1, #0x8
 	STR r1, [r0]
-	LDR r0, =GPIO_PORTE_DEN_R
+	LDR r0, =GPIO_PORTE_DEN_R			; set digital enable
 	MOV r1, #0xF
 	STR r1, [r0]
     BX  LR
@@ -80,7 +80,7 @@ IO_Init PROC
 IO_HeartBeat PROC
 	LDR r0, =GPIO_PORTE_DATA_R
 	LDR r1, [r0]
-	EOR r1, #0x8
+	EOR r1, #0x8						; toggle the LED
 	STR r1, [r0]
     BX  LR                        ; return
 	ENDP
@@ -96,7 +96,7 @@ IO_HeartBeat PROC
 ; This is a public function
 ; Invariables: This function must not permanently modify registers R4 to R11
 IO_Touch PROC
-	LDR r1, =GPIO_PORTE_DATA_R
+	LDR r1, =GPIO_PORTE_DATA_R			; just waits until the button is realeased
 WAIT_FOR_RELEASE
 	LDR r2, [r1]
 	TST r2, #0x1

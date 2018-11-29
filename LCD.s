@@ -69,21 +69,21 @@ writecommand PROC
 ;4) Write the command to SSI0_DR_R
 ;5) Read SSI0_SR_R and check bit 4, 
 ;6) If bit 4 is high, loop back to step 5 (wait for BUSY bit to be low)
-	LDR r1, =SSI0_SR_R
+	LDR r1, =SSI0_SR_R			; 1a
 L1	LDR r2, [r1]
-	TST r2, #0x10
-	BNE L1
-	LDR r1, =GPIO_PORTA_DATA_R
+	TST r2, #0x10				; 1b
+	BNE L1						; 2
+	LDR r1, =GPIO_PORTA_DATA_R	; 3
 	LDR r2, [r1]
 	AND r2, r2, #0xBF
 	STR r2, [r1]
-	LDR r3, =SSI0_DR_R
+	LDR r3, =SSI0_DR_R			; 4
 	STR r0, [r3]
-	LDR r1, =SSI0_SR_R
+	LDR r1, =SSI0_SR_R			; 5
 L2	LDR r2, [r1]
 	TST r2, #0x10
 	BNE L2
-	BX  LR                          ;   return
+	BX  LR						; return
 	ENDP
 		
 		
@@ -96,17 +96,17 @@ writedata PROC
 ;2) If bit 1 is low loop back to step 1 (wait for TNF bit to be high)
 ;3) Set D/C=PA6 to one
 ;4) Write the 8-bit data to SSI0_DR_R
-	LDR r1, =SSI0_SR_R
+	LDR r1, =SSI0_SR_R				; 1a
 L3	LDR r2, [r1]
-	TST r2, #0x10
-	BNE L3
-	LDR r1, =GPIO_PORTA_DATA_R
+	TST r2, #0x10					; 1b
+	BNE L3							; 2
+	LDR r1, =GPIO_PORTA_DATA_R		; 3
 	LDR r2, [r1]
 	ORR r2, r2, #0x40
 	STR r2, [r1]
-	LDR r3, =SSI0_DR_R
+	LDR r3, =SSI0_DR_R				; 4
 	STR r0, [r3]  
-    BX  LR                          ;   return
+    BX  LR                          ; return
 	ENDP
 
 
