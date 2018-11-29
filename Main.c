@@ -47,11 +47,9 @@ void portA_init(void);
 
 int main(void){
 	char *names="Will and Joy";
-	char *phrase="Hello World!";
-  PLL_Init(); // set system clock to 80 MHz
+	char *phrase="Hello World!";												//what a catch phrase
+  PLL_Init(); 																				//set system clock to 80 MHz
   IO_Init();
-  
-  // test DrawChar() and DrawCharS()
   ST7735_InitR(INITR_REDTAB);
 	unsigned long input = 0x00000000;
 	unsigned short flags = 0x6;
@@ -66,16 +64,16 @@ int main(void){
 			if (input&0x1)																	//wait for the breakpoint button to be pressed
 			{
 				ST7735_FillScreen(ST7735_BLACK);							//clear the screen
-			ST7735_DrawString(1,2,"BREAKPOINT MODE",ST7735_RED);	//write "BREAKPOINT MODE" in the middle of the screen. for extended troubleshooting
+			ST7735_DrawString(1,2,"BREAKPOINT MODE",ST7735_RED);	//write "BREAKPOINT MODE" in the middle of the screen. for the aesthetic more than anything
 			IO_Touch();																			//wait until the breakpoint button is realeased
 			if ((input&0x2) && (count < 3))									//check the state of the first button
 			{
-				if (count==1)																	//write the names on the first press
+				if (count==1)																	//writes the names on the first press
 				{
 					ST7735_DrawString(1,1,names,ST7735_RED);
 					count++;
 				}
-				else if (count==2)														//write the phrase on the second press
+				else if (count==2)														//writes the phrase on the second press
 				{
 					ST7735_DrawString(1,14,phrase,ST7735_RED);
 					Delay1ms(20000);														//wait 2 seconds and get clear the catchphrase
@@ -107,7 +105,7 @@ int main(void){
 		else{																					//This handles the normal behavior
 			ST7735_DrawString(1,2,"               ",ST7735_RED);
 			if (input&0x2 && !(flags&0x0002))							//FLAGS: ensures that the it'll only write a command to the screen if there was a change in state. 
-		{																								//there's no reason to redraw the same thing however many times a second it updates.
+		{																								//there's no reason to redraw the same thing however many thousands of times a second it updates.
 			flags |=0x2;																	//This block checks the first button's state
 			ST7735_DrawString(1,1,names, ST7735_RED);
 			ST7735_DrawString(1,14,phrase,ST7735_RED);
