@@ -39,7 +39,7 @@
 
 typedef enum { false, true } bool;
 
-void Delay1ms(uint32_t n);
+extern void Delay1ms(uint32_t n);
 void IO_Init(void);
 void IO_HeartBeat(void);
 void IO_Touch(void);
@@ -64,30 +64,52 @@ int main(void){
   while(1){
 		input=GPIO_PORTE_DATA_R;
 		flags |=input&0x1;
-		/*
-		if (input & 0x1)
+		if (flags&0x1)
 		{
-				IO_Touch();
-				flags|=0x1;
-				count++;
-		}
-		if (input &0x2)
-		{
-			if (flags&0x1)
+			GPIO_PORTE_DATA_R|=0x8;
+			if (input&0x1)
 			{
-				if (count==2)
-					ST7735_DrawString(1,1,names, ST7735_BLACK);
+				ST7735_FillScreen(ST7735_BLACK);
+			ST7735_DrawString(1,2,"BREAKPOINT MODE",ST7735_RED);
+			IO_Touch();
+			if ((input&0x2) && (count < 3))
+			{
+				if (count==1)
+				{
+					ST7735_DrawString(1,1,names,ST7735_RED);
+					count++;
+				}
+				else if (count==2)
+				{
+					ST7735_DrawString(1,14,phrase,ST7735_RED);
+					Delay1ms(20000);
+					ST7735_DrawString(1,14,"                      ", ST7735_RED);
+					if (!(input&0x4))
+					{
+						flags &=0xE;
+						count=0;
+					}
+				}
+				
 			}
-				else if (count==3)
-					ST7735_DrawString(21,1,phrase, ST7735_BLACK);
+			if (input&0x4)
+			{
+				if (count==1 || count==3)
+				{
+					ST7735_DrawBitmap(35,115,parrot,49,75);
+					Delay1ms(20000);
+					ST7735_DrawBitmap(35,115,blank,49,75);
+					flags &=0xE;
+					count=0;
+				}
+			}
+			if (count ==0) count++;
+			if (count > 3) count=0;
 		}
-		else if (input & 0x4)
-		{
-			ST7735_DrawBitmap(35,125, parrot, 49,75);
-				//delay 2s
-			ST7735_DrawBitmap(35,125, blank, 49, 75);
 		}
-		*/
+		
+		else{
+			ST7735_DrawString(1,2,"               ",ST7735_RED);
 		if (input&0x2 && !(flags&0x0002))
 		{
 			flags |=0x2;
@@ -108,7 +130,10 @@ int main(void){
 				flags &=0xFB;
 			ST7735_DrawBitmap(35,125, blank, 49, 75);
 		}
-			
+		IO_HeartBeat();
+	}
+
+	Delay1ms(1000);	
 	}
 
 }

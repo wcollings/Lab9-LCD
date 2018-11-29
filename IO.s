@@ -80,7 +80,7 @@ IO_Init PROC
 IO_HeartBeat PROC
 	LDR r0, =GPIO_PORTE_DATA_R
 	LDR r1, [r0]
-	EOR r1, #0x4
+	EOR r1, #0x8
 	STR r1, [r0]
     BX  LR                        ; return
 	ENDP
@@ -100,7 +100,7 @@ IO_Touch PROC
 WAIT_FOR_RELEASE
 	LDR r2, [r1]
 	TST r2, #0x1
-	BEQ WAIT_FOR_RELEASE ; End of loop
+	BNE WAIT_FOR_RELEASE ; End of loop
 	BX  LR                          ; return*/
 	ENDP
 ;* * * * * * * * End of IO_Touch * * * * * * * *
